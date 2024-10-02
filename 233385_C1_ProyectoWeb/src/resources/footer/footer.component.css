@@ -1,0 +1,48 @@
+.footer {
+    background-color: #004c99; /* Color de fondo del footer */
+    color: #ffffff; /* Color del texto */
+    padding: 40px 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.footer-info,
+.footer-links,
+.footer-social {
+    width: 30%; /* Ajustar el ancho de cada sección del footer */
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin: 10px 0;
+}
+
+.footer-links a,
+.footer-social a {
+    color: #ffffff; /* Color de los enlaces */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover,
+.footer-social a:hover {
+    color: #ffcc00; /* Color de los enlaces al pasar el mouse */
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #003366; /* Color de fondo de la sección inferior */
+    color: #ffffff; /* Color del texto */
+}
