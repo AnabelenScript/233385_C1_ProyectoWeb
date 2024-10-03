@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>SeaStore - Tienda de Ropa</title>
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="#" class="logo">SeaStore</a>
+            <a routerLink="/" class="logo">SeaStore
+                <img src="sea.png" alt="" class="sea">
+            </a>
             <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Tienda</a></li>
-                <li><a href="#">Sobre Nosotros</a></li>
-                <li><a href="#">Contacto</a></li>
+                <li><a routerLink="/">Inicio</a></li>
+                <li><a routerLink="/">Tienda</a></li>
+                <li><a routerLink="/">Sobre Nosotros</a></li>
             </ul>
             <div class="nav-icons">
-                <a href="#" class="cart-icon">🛒</a>
-                <a href="#" class="user-icon">👤</a>
+                <a routerLink="/shopbag" class="cart-icon"><i class='bx bxs-shopping-bag' style='color:#ffffff'  ></i></a>
+                <a routerLink="/" class="user-icon"><i class='bx bxs-user' style='color:#ffffff'  ></i></a>
             </div>
         </div>
     </nav>
