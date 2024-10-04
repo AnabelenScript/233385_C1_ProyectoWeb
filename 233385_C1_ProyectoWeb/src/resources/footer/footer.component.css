@@ -1,7 +1,10 @@
 .footer {
     background-color: #004c99; /* Color de fondo del footer */
     color: #ffffff; /* Color del texto */
-    padding: 40px 0;
+    padding-top: 10px;
+    margin-top: 100px;
+    font-family: "Afacad", sans-serif;
+    height: fit-content;
 }
 
 .container {

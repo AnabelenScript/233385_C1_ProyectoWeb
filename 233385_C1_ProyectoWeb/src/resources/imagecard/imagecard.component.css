@@ -1,58 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+}
+
 .container {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding: 20px;
+    gap: 40px;
+    justify-content: center;
+    position: relative;
+    font-family: "Afacad", sans-serif;
 }
 
 .card {
+    margin-top: 100px;
     position: relative;
-    width: 200px; /* Ajusta el tamaño de la tarjeta */
-    margin: 20px;
-    overflow: hidden; /* Para que no se desborde el contenido */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: transform 0.3s;
+    width: 200px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.368);
+    z-index: 1; /* Cambiado para que todas las tarjetas estén por detrás inicialmente */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    z-index: 10; 
 }
 
 .card-image {
     width: 100%;
-    border-radius: 8px 8px 0 0; /* Bordes redondeados en la parte superior */
+    height: auto;
+    display: block;
+    object-fit: cover;
 }
 
 .card-info {
+    text-align: center;
     padding: 10px;
-    text-align: center;
 }
-
 .card-hover {
-    display: none; /* Ocultar el contenedor por defecto */
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    text-align: center;
-    padding: 20px;
-    transition: display 0.3s;
-}
-
-.card:hover .card-hover {
-    display: flex; /* Mostrar el contenedor al pasar el cursor */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    height: 400px;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 10; /* Asegurarse de que el contenedor esté por encima */
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    z-index: 20;
 }
 
-.hover-image {
-    width: 150px; /* Tamaño de la imagen en el hover */
-    margin-bottom: 10px;
+.card:hover .card-hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: grow 0.4s ease forwards;
 }
 
-.hover-info h3,
-.hover-info p {
-    margin: 5px 0;
+.hover-info h3, .hover-info p {
+    margin: 10px 0;
+    text-align: center;
+}
+
+/* Animación de expansión */
+@keyframes grow {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Fondo oscuro que aparece al hacer hover */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7); /* Oscurece el fondo */
+    z-index: 5; /* Debe estar detrás del card-hover */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mostrar el fondo oscuro cuando una tarjeta está en hover */
+.card:hover ~ .overlay {
+    opacity: 1;
+    visibility: visible;
 }
