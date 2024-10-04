@@ -28,6 +28,7 @@ body {
 .card:hover {
     transform: scale(1.05);
     z-index: 10; 
+    
 }
 
 .card-image {
@@ -41,14 +42,15 @@ body {
     text-align: center;
     padding: 10px;
 }
+
 .card-hover {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgb(255, 255, 255);
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: fit-content;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -66,9 +68,18 @@ body {
     animation: grow 0.4s ease forwards;
 }
 
-.hover-info h3, .hover-info p {
+.hover-info h3, p{
     margin: 10px 0;
     text-align: center;
+}
+
+/* Nueva clase para la imagen ampliada */
+.hover-image {
+    width: 100%; 
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Animación de expansión */
@@ -77,26 +88,45 @@ body {
         transform: translate(-50%, -50%) scale(0.5);
     }
     100% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -35%) scale(1);
     }
 }
 
-/* Fondo oscuro que aparece al hacer hover */
+
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7); /* Oscurece el fondo */
-    z-index: 5; /* Debe estar detrás del card-hover */
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 5; 
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-/* Mostrar el fondo oscuro cuando una tarjeta está en hover */
+
 .card:hover ~ .overlay {
     opacity: 1;
     visibility: visible;
+}
+
+.content-card {
+    background-color: antiquewhite;
+    text-align: left;
+}
+
+#heart{
+    margin-right: 90%;
+    font-size: 25px;
+}
+
+.quantity{
+    background-color: rgb(42, 50, 165);
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 15px;
+    color: white;
 }
