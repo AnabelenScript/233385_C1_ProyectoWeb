@@ -1,36 +1,24 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <div class="container">
-    <!-- Tarjeta 1 -->
-    <div class="card">
-        <img src="zapato1.jpg" alt="Zapato 1" class="card-image">
-        <div class="card-info">
-            <h3>Zapato Deportivo</h3>
-            <p>$59.99</p>
+    <div class="card" *ngFor="let shoe of shoes">
+      <img [src]="shoe.image" [alt]="shoe.name" class="card-image">
+      <div class="card-info">
+        <h3>{{ shoe.name }}</h3>
+        <p>${{ shoe.price }}</p>
+      </div>
+      <div class="card-hover">
+        <i class='bx bx-heart' id="heart" (click)="addToCart(shoe)"></i> <!-- Botón para agregar al carrito -->
+        <span class="quantity">{{ getQuantity(shoe.id) }}</span> <!-- Cantidad en la esquina contraria -->
+        <div class="hover-info">
+          <img [src]="shoe.image" [alt]="shoe.name + ' Ampliado'" class="hover-image">
+          <h3>{{ shoe.name }}</h3>
+          <p>${{ shoe.price }}</p>
+          <p>Descripción: {{ shoe.description }}</p>
+          <p>Talla: {{ shoe.size }}</p>
+          <p>Color: {{ shoe.color }}</p>
+          <p>Marca: {{ shoe.brand }}</p>
         </div>
-        <div class="card-hover">
-            <div class="hover-info">
-                <h3>Zapato Deportivo</h3>
-                <p>$59.99</p>
-                <p>Descripción: Un zapato deportivo cómodo y ligero para tu entrenamiento diario.</p>
-            </div>
-        </div>
+      </div>
     </div>
-    <div class="card">
-        <img src="zapato2.jpg" alt="Zapato 2" class="card-image">
-        <div class="card-info">
-            <h3>Zapato Casual</h3>
-            <p>$49.99</p>
-        </div>
-        <div class="card-hover">
-            <div class="hover-info">
-                <h3>Zapato Casual</h3>
-                <p>$49.99</p>
-                <p>Descripción: Un zapato casual perfecto para ocasiones informales.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Fondo oscuro -->
     <div class="overlay"></div>
-</div>
+  </div>
+  

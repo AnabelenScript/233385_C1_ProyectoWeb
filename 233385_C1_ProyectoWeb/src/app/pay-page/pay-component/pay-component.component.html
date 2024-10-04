@@ -1,7 +1,66 @@
 <app-navbar></app-navbar>
+
 <body>
-   <H1>
-    Shopping bag
-   </H1>
-  </body>
+  <h1>Shopping Bag</h1>
+  <div *ngIf="shoppingBag.length > 0; else emptyBag" class="shopping-container">
+    <div *ngFor="let product of shoppingBag" class="product-row">
+      <img [src]="product.image" alt="{{ product.name }}" class="product-image">
+      <div class="product-info">
+        <div class="product-name">{{ product.name }}</div>
+        <div class="product-details">
+          <p>Color: {{ product.color }}</p>
+          <p>Talla: {{ product.size }}</p>
+          <p>Marca: {{ product.brand }}</p>
+        </div>
+      </div>
+      <div class="product-quantity">Cantidad: {{ product.quantity }}</div>
+      <div class="product-price">${{ product.price * product.quantity }}</div>
+      <button class="remove-button" (click)="removeProduct(product)">Eliminar</button>
+    </div>
+    <div class="total-container">
+      <div class="total-text">Total a pagar:</div>
+      <div class="total-amount">${{ totalPrice }}</div>
+    </div>
+  </div>
+
+  <form *ngIf="!formStatic" (ngSubmit)="saveBankData()" class="bank-form">
+    <h3>Datos Bancarios</h3>
+    <div class="form-group">
+      <label for="cvv">CVV:</label><br>
+      <input type="text" id="cvv" [(ngModel)]="bankData.cvv" name="cvv" required maxlength="4" minlength="4" />
+    </div>
+    <div class="form-group">
+      <label for="accountNumber">Número de cuenta:</label><br>
+      <input type="text" id="accountNumber" [(ngModel)]="bankData.accountNumber" name="accountNumber" required maxlength="16" minlength="16" />
+    </div>
+    <div class="form-group">
+      <label for="bank">Banco:</label><br>
+      <select id="bank" [(ngModel)]="bankData.bank" name="bank" required>
+        <option value="BBVA">BBVA</option>
+        <option value="Santander">Santander</option>
+        <option value="Banorte">Banorte</option>
+        <option value="HSBC">HSBC</option>
+        <option value="Citibanamex">Citibanamex</option>
+      </select>
+    </div>
+    <button type="submit" class="btn">Guardar Datos Bancarios</button>
+  </form>
+
+  <div *ngIf="formStatic" class="bank-data-summary">
+    <h3>Datos Bancarios Guardados</h3>
+    <p>CVV: {{ bankData.cvv }}</p>
+    <p>Número de cuenta: {{ bankData.accountNumber }}</p>
+    <p>Banco: {{ bankData.bank }}</p>
+    <button (click)="editBankData()" class="btn">Modificar Datos</button>
+    <button (click)="deleteBankData()" class="btn delete">Eliminar Datos</button>
+  </div>
+
+  <button [disabled]="!bankDataComplete" (click)="pay()" class="btn pay-button">Pagar</button>
+
+  <ng-template #emptyBag>
+    <div class="emptycart">
+    <p>Tu bolsa de compras está vacía.</p></div>
+  </ng-template>
+</body>
+
 <app-footer></app-footer>

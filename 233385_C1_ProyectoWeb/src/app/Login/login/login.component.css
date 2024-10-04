@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,16 +8,17 @@ body {
 }
 
 .container {
-    background-color: white;
+    background-color: rgba(0, 45, 141, 0.166);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
+    width: 380px;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 h2 {
@@ -37,22 +37,32 @@ label {
     color: #333;
 }
 
-input[type="text"],
+input[type="text"]{
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: 20px;
+    width: 216px;
+}
+
 input[type="password"] {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    margin-left: 68px;
+    width: 216px;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #007BFF;
+    border-color: #000000;
     outline: none;
 }
 
 .btn {
-    background-color: #007BFF;
+    background-color: #0b3197;
     color: white;
     padding: 10px;
     border: none;
