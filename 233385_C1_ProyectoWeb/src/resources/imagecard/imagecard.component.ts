@@ -33,7 +33,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Azul',
       size: 7,
       brand: 'Adidas',
-      image: 'assets/zapatodeportivo.jpg',
+      image: 'zapatodeportivo.jpg',
       description: 'Un zapato deportivo cómodo y ligero para tu entrenamiento diario.'
     },
     {
@@ -43,7 +43,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Rosa',
       size: 4,
       brand: 'Terra',
-      image: 'assets/zapatocasual.jpg',
+      image: 'zapatocasual.jpg',
       description: 'Un zapato casual perfecto para ocasiones informales.'
     },
     {
@@ -53,7 +53,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Negro',
       size: 8,
       brand: 'Flexi',
-      image: 'assets/zapato3.jpg',
+      image: 'zapato3.jpg',
       description: 'Calzado que brinda elegancia y comodidad con su suela interior acolchonada.'
     },
     {
@@ -63,7 +63,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Negro',
       size: 5,
       brand: 'Capa de Ozono',
-      image: 'assets/zapato4.jpg',
+      image: 'zapato4.jpg',
       description: 'Estas zapatillas negras son perfectas con interior de cuero de porcino, suela interna acolchonada y un glamour que nunca puede faltar.'
     },
     {
@@ -73,7 +73,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Marrón',
       size: 7,
       brand: 'Cowboys',
-      image: 'assets/zapato5.jpg',
+      image: 'zapato5.jpg',
       description: 'Botas de cuero de vaca, con bordados artesanales, resistentes e impresionantes.'
     },
     {
@@ -83,7 +83,7 @@ export class ImagecardComponent implements OnInit {
       color: 'Rosa',
       size: 5,
       brand: 'PriceShoes',
-      image: 'assets/zapatos6.jpg',
+      image: 'zapatos6.jpg',
       description: 'Comodidad y estilo por el mismo precio. Sandalias de plástico, ligeras y frescas.'
     }
   ];
