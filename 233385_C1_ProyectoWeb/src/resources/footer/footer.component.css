@@ -1,6 +1,6 @@
 .footer {
-    background-color: #004c99; /* Color de fondo del footer */
-    color: #ffffff; /* Color del texto */
+    background-color: #004c99; 
+    color: #ffffff; 
     padding-top: 10px;
     margin-top: 100px;
     font-family: "Afacad", sans-serif;
@@ -19,7 +19,7 @@
 .footer-info,
 .footer-links,
 .footer-social {
-    width: 30%; /* Ajustar el ancho de cada sección del footer */
+    width: 30%; 
 }
 
 .footer-links ul {
@@ -33,19 +33,19 @@
 
 .footer-links a,
 .footer-social a {
-    color: #ffffff; /* Color de los enlaces */
+    color: #ffffff; 
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .footer-links a:hover,
 .footer-social a:hover {
-    color: #ffcc00; /* Color de los enlaces al pasar el mouse */
+    color: #ffcc00;
 }
 
 .footer-bottom {
     text-align: center;
     padding: 20px 0;
-    background-color: #003366; /* Color de fondo de la sección inferior */
-    color: #ffffff; /* Color del texto */
+    background-color: #003366; 
+    color: #ffffff; 
 }

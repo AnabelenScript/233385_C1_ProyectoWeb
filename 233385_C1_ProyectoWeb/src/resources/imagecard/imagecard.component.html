@@ -1,24 +1,53 @@
 <div class="container">
-    <div class="card" *ngFor="let shoe of shoes">
-      <img [src]="shoe.image" [alt]="shoe.name" class="card-image">
-      <div class="card-info">
-        <h3>{{ shoe.name }}</h3>
+  <div class="card" *ngFor="let shoe of shoes">
+    <img [src]="shoe.image" [alt]="shoe.name" class="card-image">
+    <div class="card-info">
+      <h3>{{ shoe.name }}</h3>
+      <p>${{ shoe.price }}</p>
+    </div>
+    <div class="card-hover">
+      <i class='bx bx-heart' id="heart" (click)="addToCart(shoe)"></i>
+      <span class="quantity">{{ getQuantity(shoe.id) }}</span>
+      <div class="shoe-specs">
+        <img [src]="shoe.image" [alt]="shoe.name + ' Ampliado'" class="hover-image">
+        <p>{{ shoe.name }}</p>
         <p>${{ shoe.price }}</p>
+        <p><strong>Color:</strong> {{ shoe.color }}</p>
+        <p><strong>Talla:</strong> {{ shoe.size }}</p>
+        <p><strong>Marca:</strong> {{ shoe.brand }}</p>
+        <p><strong>Descripción:</strong> {{ shoe.description }}</p>
       </div>
-      <div class="card-hover">
-        <i class='bx bx-heart' id="heart" (click)="addToCart(shoe)"></i> <!-- Botón para agregar al carrito -->
-        <span class="quantity">{{ getQuantity(shoe.id) }}</span> <!-- Cantidad en la esquina contraria -->
-        <div class="hover-info">
-          <img [src]="shoe.image" [alt]="shoe.name + ' Ampliado'" class="hover-image">
-          <h3>{{ shoe.name }}</h3>
-          <p>${{ shoe.price }}</p>
-          <p>Descripción: {{ shoe.description }}</p>
-          <p>Talla: {{ shoe.size }}</p>
-          <p>Color: {{ shoe.color }}</p>
-          <p>Marca: {{ shoe.brand }}</p>
-        </div>
+
+      <div class="boton">
+        <button (click)="startEditingShoe(shoe)">Modificar</button>
+        <button (click)="deleteShoe(shoe.id)">Eliminar</button>
       </div>
     </div>
-    <div class="overlay"></div>
   </div>
-  
+  <div *ngIf="showForm">
+    <h2>Agregar nuevo zapato</h2>
+    <input [(ngModel)]="newShoe.name" placeholder="Nombre" />
+    <input [(ngModel)]="newShoe.price" placeholder="Precio" type="number" />
+    <input [(ngModel)]="newShoe.color" placeholder="Color" />
+    <input [(ngModel)]="newShoe.size" placeholder="Talla" type="number" />
+    <input [(ngModel)]="newShoe.brand" placeholder="Marca" />
+    <input [(ngModel)]="newShoe.description" placeholder="Descripción" />
+    <input [(ngModel)]="newShoe.image" placeholder="URL de la imagen" />
+    <button (click)="addNewShoe()">Agregar</button>
+    <button (click)="toggleForm()">Cancelar</button>
+  </div>
+  <div *ngIf="editShoe">
+    <h2>Editar zapato</h2>
+    <input [(ngModel)]="editShoe.name" placeholder="Nombre" />
+    <input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" />
+    <input [(ngModel)]="editShoe.color" placeholder="Color" />
+    <input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" />
+    <input [(ngModel)]="editShoe.brand" placeholder="Marca" />
+    <input [(ngModel)]="editShoe.description" placeholder="Descripción" />
+    <button (click)="saveEditedShoe()">Guardar cambios</button>
+    <button (click)="cancelEdit()">Cancelar</button>
+  </div>
+
+  <button (click)="toggleForm()">Agregar Zapato</button>
+  <div class="overlay"></div>
+</div>
