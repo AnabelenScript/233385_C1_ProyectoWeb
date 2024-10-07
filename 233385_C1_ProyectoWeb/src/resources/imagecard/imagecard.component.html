@@ -24,30 +24,32 @@
       </div>
     </div>
   </div>
-  <div *ngIf="showForm">
+  <div *ngIf="showForm" class="addshoe">
     <h2>Agregar nuevo zapato</h2>
-    <input [(ngModel)]="newShoe.name" placeholder="Nombre" />
-    <input [(ngModel)]="newShoe.price" placeholder="Precio" type="number" />
-    <input [(ngModel)]="newShoe.color" placeholder="Color" />
-    <input [(ngModel)]="newShoe.size" placeholder="Talla" type="number" />
-    <input [(ngModel)]="newShoe.brand" placeholder="Marca" />
-    <input [(ngModel)]="newShoe.description" placeholder="Descripción" />
-    <input [(ngModel)]="newShoe.image" placeholder="URL de la imagen" />
+    <p>Nombre</p><input [(ngModel)]="newShoe.name" placeholder="Nombre" />
+    <p>Precio</p><input [(ngModel)]="newShoe.price" placeholder="Precio" type="number" />
+    <p>Color</p><input [(ngModel)]="newShoe.color" placeholder="Color" />
+    <p>Tamaño</p><input [(ngModel)]="newShoe.size" placeholder="Talla" type="number" />
+    <p>Marca</p><input [(ngModel)]="newShoe.brand" placeholder="Marca" />
+    <p>Descripcion+</p><input [(ngModel)]="newShoe.description" placeholder="Descripción" />
+    <p>Image</p><input [(ngModel)]="newShoe.image" placeholder="URL de la imagen" disabled="true"/>
+    <div class="botonedit">
     <button (click)="addNewShoe()">Agregar</button>
     <button (click)="toggleForm()">Cancelar</button>
-  </div>
-  <div *ngIf="editShoe">
+  </div></div>
+  <div *ngIf="editShoe" class="editshoe">
     <h2>Editar zapato</h2>
-    <input [(ngModel)]="editShoe.name" placeholder="Nombre" />
-    <input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" />
-    <input [(ngModel)]="editShoe.color" placeholder="Color" />
-    <input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" />
-    <input [(ngModel)]="editShoe.brand" placeholder="Marca" />
-    <input [(ngModel)]="editShoe.description" placeholder="Descripción" />
+    <p>Nombre:</p><input [(ngModel)]="editShoe.name" placeholder="Nombre" /><br>
+    <p>Precio:</p><input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" /><br>
+    <p>Color</p><input [(ngModel)]="editShoe.color" placeholder="Color" /><br>
+    <p>Size</p><input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" /><br>
+    <p>Marca</p><input [(ngModel)]="editShoe.brand" placeholder="Marca" /><br>
+    <p>Descripcion</p><input [(ngModel)]="editShoe.description" placeholder="Descripción" /><br>
+    <div class="botonedit">
     <button (click)="saveEditedShoe()">Guardar cambios</button>
-    <button (click)="cancelEdit()">Cancelar</button>
+    <button (click)="cancelEdit()">Cancelar</button></div>
   </div>
 
-  <button (click)="toggleForm()">Agregar Zapato</button>
+  <button (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
   <div class="overlay"></div>
 </div>
