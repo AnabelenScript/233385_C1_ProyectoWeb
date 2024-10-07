@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,6 +20,8 @@ export class PayComponentComponent implements OnInit {
     bank: ''
   };
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit() {
     this.loadShoppingBag();
     this.calculateTotalPrice();
@@ -26,38 +29,44 @@ export class PayComponentComponent implements OnInit {
   }
 
   loadShoppingBag() {
-    const cart = localStorage.getItem('shoppingBag');
-    if (cart) {
-      this.shoppingBag = JSON.parse(cart);
-    } else {
-      this.shoppingBag = [];
+    if (isPlatformBrowser(this.platformId)) {
+      const cart = localStorage.getItem('shoppingBag');
+      if (cart) {
+        this.shoppingBag = JSON.parse(cart);
+      } else {
+        this.shoppingBag = [];
+      }
     }
   }
 
   calculateTotalPrice() {
     this.totalPrice = this.shoppingBag.reduce((total, product) => {
-      return total + (product.price * product.quantity);
+      return total + (product.shoe.price * product.quantity);
     }, 0);
   }
 
   removeProduct(productToRemove: any) {
-    let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag') || '[]');
-    shoppingBag = shoppingBag.filter((product: any) => product.id !== productToRemove.id);
-    localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
-    this.loadShoppingBag();
-    this.calculateTotalPrice();
+    if (isPlatformBrowser(this.platformId)) {
+      let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag') || '[]');
+      shoppingBag = shoppingBag.filter((product: any) => product.id !== productToRemove.id);
+      localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
+      this.loadShoppingBag();
+      this.calculateTotalPrice();
+    }
   }
 
   loadBankData() {
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-    if (loggedInUser && loggedInUser.id) {
-      this.bankData.id_user = loggedInUser.id;
+    if (isPlatformBrowser(this.platformId)) {
+      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
+      if (loggedInUser && loggedInUser.id) {
+        this.bankData.id_user = loggedInUser.id;
 
-      const bankDataStored = localStorage.getItem('bankData');
-      if (bankDataStored) {
-        this.bankData = JSON.parse(bankDataStored);
-        this.formStatic = true;
-        this.bankDataComplete = true;
+        const bankDataStored = localStorage.getItem('bankData');
+        if (bankDataStored) {
+          this.bankData = JSON.parse(bankDataStored);
+          this.formStatic = true;
+          this.bankDataComplete = true;
+        }
       }
     }
   }
@@ -65,7 +74,9 @@ export class PayComponentComponent implements OnInit {
   saveBankData() {
     if (this.validateBankData()) {
       this.bankData.id = new Date().getTime(); 
-      localStorage.setItem('bankData', JSON.stringify(this.bankData));
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('bankData', JSON.stringify(this.bankData));
+      }
       Swal.fire('Datos bancarios agregados correctamente', '', 'success');
       this.formStatic = true;
       this.bankDataComplete = true;
@@ -83,7 +94,9 @@ export class PayComponentComponent implements OnInit {
   }
 
   deleteBankData() {
-    localStorage.removeItem('bankData');
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('bankData');
+    }
     this.bankData = { id: 0, cvv: '', accountNumber: '', id_user: this.bankData.id_user, bank: '' };
     this.formStatic = true; 
     this.bankDataComplete = false;
@@ -92,10 +105,12 @@ export class PayComponentComponent implements OnInit {
   pay() {
     if (this.bankDataComplete) {
       Swal.fire('Compra efectuada con éxito', '', 'success');
-      const history = JSON.parse(localStorage.getItem('history') || '[]');
-      history.push(...this.shoppingBag);
-      localStorage.setItem('history', JSON.stringify(history));
-      localStorage.removeItem('shoppingBag');
+      if (isPlatformBrowser(this.platformId)) {
+        const history = JSON.parse(localStorage.getItem('history') || '[]');
+        history.push(...this.shoppingBag);
+        localStorage.setItem('history', JSON.stringify(history));
+        localStorage.removeItem('shoppingBag');
+      }
       this.loadShoppingBag(); 
       this.totalPrice = 0;
     } else {
