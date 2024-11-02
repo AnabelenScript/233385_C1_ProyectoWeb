@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, NgModule } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -12,32 +12,39 @@ export class PayComponentComponent implements OnInit {
   totalPrice: number = 0;
   formStatic: boolean = true;
   bankDataComplete: boolean = false;
-  bankData = {
-    id: 0,
-    cvv: '',
-    accountNumber: '',
-    id_user: 0,
-    bank: ''
-  };
+  bankData = { cvv: '', accountNumber: '', bank: '' };
+  username: string = '';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
+    this.loadUserData();
     this.loadShoppingBag();
     this.calculateTotalPrice();
     this.loadBankData();
   }
 
+  loadUserData() {
+    if (isPlatformBrowser(this.platformId)) {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.iniciosesion === true);
+      this.username = currentUser ? currentUser.username : 'Invitado';
+    }
+  }
+
   loadShoppingBag() {
     if (isPlatformBrowser(this.platformId)) {
-      const cart = localStorage.getItem('shoppingBag');
-      if (cart) {
-        this.shoppingBag = JSON.parse(cart);
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.iniciosesion === true); 
+  
+      if (currentUser && currentUser.shoppingBag) {
+        this.shoppingBag = currentUser.shoppingBag; 
       } else {
-        this.shoppingBag = [];
+        this.shoppingBag = []; 
       }
     }
   }
+  
 
   calculateTotalPrice() {
     this.totalPrice = this.shoppingBag.reduce((total, product) => {
@@ -47,41 +54,49 @@ export class PayComponentComponent implements OnInit {
 
   removeProduct(productToRemove: any) {
     if (isPlatformBrowser(this.platformId)) {
-      let shoppingBag = JSON.parse(localStorage.getItem('shoppingBag') || '[]');
-      shoppingBag = shoppingBag.filter((product: any) => product.id !== productToRemove.id);
-      localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag));
-      this.loadShoppingBag();
-      this.calculateTotalPrice();
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.username === this.username);
+
+      if (currentUser) {
+        currentUser.shoppingBag = currentUser.shoppingBag.filter((product: any) => product.id !== productToRemove.id);
+        localStorage.setItem('users', JSON.stringify(users));
+        this.loadShoppingBag();
+        this.calculateTotalPrice();
+      }
     }
   }
 
   loadBankData() {
     if (isPlatformBrowser(this.platformId)) {
-      const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser') || '{}');
-      if (loggedInUser && loggedInUser.id) {
-        this.bankData.id_user = loggedInUser.id;
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.username === this.username);
 
-        const bankDataStored = localStorage.getItem('bankData');
-        if (bankDataStored) {
-          this.bankData = JSON.parse(bankDataStored);
-          this.formStatic = true;
-          this.bankDataComplete = true;
-        }
+      if (currentUser && currentUser.bankData) {
+        this.bankData = currentUser.bankData;
+        this.formStatic = true;
+        this.bankDataComplete = true;
       }
     }
   }
 
   saveBankData() {
     if (this.validateBankData()) {
-      this.bankData.id = new Date().getTime(); 
       if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('bankData', JSON.stringify(this.bankData));
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const currentUser = users.find((user: any) => user.username === this.username);
+
+        if (currentUser) {
+          currentUser.bankData = this.bankData;
+          localStorage.setItem('users', JSON.stringify(users));
+          Swal.fire('Datos bancarios agregados correctamente', '', 'success');
+          this.formStatic = true;
+          this.bankDataComplete = true;
+        } else {
+          Swal.fire('Error al guardar los datos bancarios', 'Usuario no encontrado', 'error');
+        }
       }
-      Swal.fire('Datos bancarios agregados correctamente', '', 'success');
-      this.formStatic = true;
-      this.bankDataComplete = true;
     } else {
-      Swal.fire('Por favor, verifique que los datos sean correctos', '', 'error');
+      Swal.fire('Error al guardar los datos bancarios', 'Verifique que los datos sean correctos', 'error');
     }
   }
 
@@ -95,24 +110,35 @@ export class PayComponentComponent implements OnInit {
 
   deleteBankData() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('bankData');
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.username === this.username);
+
+      if (currentUser) {
+        currentUser.bankData = null;
+        localStorage.setItem('users', JSON.stringify(users));
+        this.bankData = { cvv: '', accountNumber: '', bank: '' };
+        this.formStatic = true;
+        this.bankDataComplete = false;
+      }
     }
-    this.bankData = { id: 0, cvv: '', accountNumber: '', id_user: this.bankData.id_user, bank: '' };
-    this.formStatic = true; 
-    this.bankDataComplete = false;
   }
 
   pay() {
     if (this.bankDataComplete) {
       Swal.fire('Compra efectuada con éxito', '', 'success');
       if (isPlatformBrowser(this.platformId)) {
-        const history = JSON.parse(localStorage.getItem('history') || '[]');
-        history.push(...this.shoppingBag);
-        localStorage.setItem('history', JSON.stringify(history));
-        localStorage.removeItem('shoppingBag');
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const currentUser = users.find((user: any) => user.username === this.username);
+
+        if (currentUser) {
+          if (!currentUser.history) currentUser.history = [];
+          currentUser.history.push(...this.shoppingBag);
+          currentUser.shoppingBag = [];
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+        this.loadShoppingBag();
+        this.totalPrice = 0;
       }
-      this.loadShoppingBag(); 
-      this.totalPrice = 0;
     } else {
       Swal.fire('Por favor, complete sus datos bancarios antes de pagar', '', 'warning');
     }

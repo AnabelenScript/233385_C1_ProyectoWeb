@@ -24,6 +24,7 @@
       </div>
     </div>
   </div>
+  
   <div *ngIf="showForm" class="addshoe">
     <h2>Agregar nuevo zapato</h2>
     <p>Nombre</p><input [(ngModel)]="newShoe.name" placeholder="Nombre" />
@@ -31,23 +32,26 @@
     <p>Color</p><input [(ngModel)]="newShoe.color" placeholder="Color" />
     <p>Tamaño</p><input [(ngModel)]="newShoe.size" placeholder="Talla" type="number" />
     <p>Marca</p><input [(ngModel)]="newShoe.brand" placeholder="Marca" />
-    <p>Descripcion+</p><input [(ngModel)]="newShoe.description" placeholder="Descripción" />
-    <p>Image</p><input [(ngModel)]="newShoe.image" placeholder="URL de la imagen" disabled="true"/>
+    <p>Descripción</p><input [(ngModel)]="newShoe.description" placeholder="Descripción" />
+    <p>Imagen</p><input [(ngModel)]="newShoe.image" placeholder="URL de la imagen" disabled="true"/>
     <div class="botonedit">
-    <button (click)="addNewShoe()">Agregar</button>
-    <button (click)="toggleForm()">Cancelar</button>
-  </div></div>
+      <button (click)="addNewShoe()">Agregar</button>
+      <button (click)="toggleForm()">Cancelar</button>
+    </div>
+  </div>
+
   <div *ngIf="editShoe" class="editshoe">
     <h2>Editar zapato</h2>
     <p>Nombre:</p><input [(ngModel)]="editShoe.name" placeholder="Nombre" /><br>
     <p>Precio:</p><input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" /><br>
     <p>Color</p><input [(ngModel)]="editShoe.color" placeholder="Color" /><br>
-    <p>Size</p><input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" /><br>
+    <p>Tamaño</p><input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" /><br>
     <p>Marca</p><input [(ngModel)]="editShoe.brand" placeholder="Marca" /><br>
-    <p>Descripcion</p><input [(ngModel)]="editShoe.description" placeholder="Descripción" /><br>
+    <p>Descripción</p><input [(ngModel)]="editShoe.description" placeholder="Descripción" /><br>
     <div class="botonedit">
-    <button (click)="saveEditedShoe()">Guardar cambios</button>
-    <button (click)="cancelEdit()">Cancelar</button></div>
+      <button (click)="saveEditedShoe()">Guardar cambios</button>
+      <button (click)="cancelEdit()">Cancelar</button>
+    </div>
   </div>
 
   <button (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
