@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, PLATFORM_ID } from '@angular/core';
 
 interface Shoe {
   id: number;
@@ -103,12 +102,22 @@ export class ImagecardComponent implements OnInit {
   editShoe: Shoe | null = null; 
   cart: CartItem[] = []; 
 
+  isLogged: boolean = false; 
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+
   ngOnInit() {
     this.loadShoes(); 
     this.loadCart(); 
+    this.isLogged = this.checkUserLogged(); 
   }
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  checkUserLogged(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      return users.some((user: any) => user.iniciosesion === true); 
+    }
+    return false; 
+  }
 
   loadShoes(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -127,6 +136,7 @@ export class ImagecardComponent implements OnInit {
       }
     }
   }
+
   addNewShoe() {
     if (this.newShoe.name && this.newShoe.price) {
       this.newShoe.id = this.shoes.length ? Math.max(...this.shoes.map(shoe => shoe.id)) + 1 : 1;
@@ -140,9 +150,11 @@ export class ImagecardComponent implements OnInit {
   modifyShoe(shoe: Shoe) {
     this.editShoe = { ...shoe }; 
   }
+
   startEditingShoe(shoe: any) {
     this.editShoe = { ...shoe };
   }
+
   saveEditedShoe() {
     if (this.editShoe) {
       const index = this.shoes.findIndex(shoe => shoe.id === this.editShoe!.id);
@@ -159,7 +171,9 @@ export class ImagecardComponent implements OnInit {
   }
 
   saveShoes() {
-    localStorage.setItem('shoes', JSON.stringify(this.shoes));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('shoes', JSON.stringify(this.shoes));
+    }
   }
 
   deleteShoe(id: number) {
@@ -175,27 +189,48 @@ export class ImagecardComponent implements OnInit {
   resetNewShoe() {
     this.newShoe = { id: 0, name: '', price: 0, color: '', size: 0, brand: '', description: '', image: 'zapato3.jpg' };
   }
+
   addToCart(shoe: Shoe) {
-    const shoppingBag = JSON.parse(localStorage.getItem('shoppingBag') || '[]'); 
-    const foundIndex = shoppingBag.findIndex((item: CartItem) => item.id === shoe.id); 
-
-    if (foundIndex > -1) {
-      shoppingBag[foundIndex].quantity += 1;
-    } else {
-      shoppingBag.push({ id: shoe.id, shoe, quantity: 1 });
+    if (isPlatformBrowser(this.platformId)) {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.iniciosesion === true);
+  
+      if (currentUser) {
+        if (!currentUser.shoppingBag) {
+          currentUser.shoppingBag = []; 
+        }
+  
+        const foundIndex = currentUser.shoppingBag.findIndex((item: CartItem) => item.id === shoe.id);
+  
+        if (foundIndex > -1) {
+          currentUser.shoppingBag[foundIndex].quantity += 1; 
+        } else {
+          currentUser.shoppingBag.push({ id: shoe.id, shoe, quantity: 1 });
+        }
+  
+        localStorage.setItem('users', JSON.stringify(users));
+        this.cart = currentUser.shoppingBag; 
+      }
     }
-
-    localStorage.setItem('shoppingBag', JSON.stringify(shoppingBag)); 
-    this.cart = shoppingBag; 
   }
 
   getQuantity(shoeId: number): number {
-    const item = this.cart.find(cartItem => cartItem.id === shoeId);
-    return item ? item.quantity : 0; 
+    if (this.isLogged) { 
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.iniciosesion === true);
+      
+      if (currentUser && currentUser.shoppingBag) {
+        const item = currentUser.shoppingBag.find((cartItem: CartItem) => cartItem.shoe.id === shoeId);
+        return item ? item.quantity : 0; 
+      }
+    }
+    return 0;
   }
-
+  
   removeFromCart(shoeId: number) {
     this.cart = this.cart.filter(item => item.id !== shoeId); 
-    localStorage.setItem('shoppingBag', JSON.stringify(this.cart));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('shoppingBag', JSON.stringify(this.cart));
+    }
   }
 }

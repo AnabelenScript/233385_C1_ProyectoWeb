@@ -1,5 +1,6 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+// navbar.component.ts
+import { Component } from '@angular/core';
+import { AuthService } from './logService.service'
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class NavbarComponent {
   isSidebarOpen = false;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private authService: AuthService) {}
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
@@ -21,15 +22,13 @@ export class NavbarComponent {
   }
 
   logout() {
-    this.closeSidebar(); 
+    this.authService.logout(); // Utiliza el servicio para hacer logout
+    this.closeSidebar();
   }
 
   getUsername(): string {
-    if (isPlatformBrowser(this.platformId)) {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const currentUser = users.find((u: any) => u.iniciosesion === true);
-      return currentUser ? currentUser.username : 'Invitado'; 
-    }
-    return 'Invitado'; 
+    const currentUser = this.authService.getLoggedUser();
+    return currentUser ? currentUser.username : 'Invitado';
   }
 }
+
