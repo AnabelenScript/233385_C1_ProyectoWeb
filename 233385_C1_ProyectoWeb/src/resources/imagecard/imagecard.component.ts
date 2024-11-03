@@ -101,23 +101,22 @@ export class ImagecardComponent implements OnInit {
 
   editShoe: Shoe | null = null; 
   cart: CartItem[] = []; 
-
   isLogged: boolean = false; 
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  isUser: boolean = false;
+isAdmin: boolean = false;
 
-  ngOnInit() {
-    this.loadShoes(); 
-    this.loadCart(); 
-    this.isLogged = this.checkUserLogged(); 
+ngOnInit() {
+  if (isPlatformBrowser(this.platformId)) {
+    const loggedUser = localStorage.getItem('isLoggedUser');
+    this.isUser = loggedUser === 'user';
+    this.isAdmin = loggedUser === 'admin';
+    this.isLogged = !!loggedUser;
+    this.loadShoes();
+    this.loadCart();
   }
-  checkUserLogged(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      return users.some((user: any) => user.iniciosesion === true); 
-    }
-    return false; 
-  }
+}
 
   loadShoes(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -151,7 +150,7 @@ export class ImagecardComponent implements OnInit {
     this.editShoe = { ...shoe }; 
   }
 
-  startEditingShoe(shoe: any) {
+  startEditingShoe(shoe: Shoe) {
     this.editShoe = { ...shoe };
   }
 

@@ -6,8 +6,9 @@
       <p>${{ shoe.price }}</p>
     </div>
     <div class="card-hover">
-      <i class='bx bx-heart' id="heart" (click)="addToCart(shoe)"></i>
-      <span class="quantity">{{ getQuantity(shoe.id) }}</span>
+      <i class="bx bx-heart" id="heart" (click)="addToCart(shoe)" *ngIf="isUser"></i>
+      <span class="quantity" *ngIf="isUser">{{ getQuantity(shoe.id) }}</span>
+      
       <div class="shoe-specs">
         <img [src]="shoe.image" [alt]="shoe.name + ' Ampliado'" class="hover-image">
         <p>{{ shoe.name }}</p>
@@ -17,15 +18,13 @@
         <p><strong>Marca:</strong> {{ shoe.brand }}</p>
         <p><strong>Descripción:</strong> {{ shoe.description }}</p>
       </div>
-
-      <div class="boton">
+      <div class="boton" *ngIf="isAdmin">
         <button (click)="startEditingShoe(shoe)">Modificar</button>
         <button (click)="deleteShoe(shoe.id)">Eliminar</button>
       </div>
     </div>
   </div>
-  
-  <div *ngIf="showForm" class="addshoe">
+  <div *ngIf="isAdmin && showForm" class="addshoe">
     <h2>Agregar nuevo zapato</h2>
     <p>Nombre</p><input [(ngModel)]="newShoe.name" placeholder="Nombre" />
     <p>Precio</p><input [(ngModel)]="newShoe.price" placeholder="Precio" type="number" />
@@ -39,8 +38,7 @@
       <button (click)="toggleForm()">Cancelar</button>
     </div>
   </div>
-
-  <div *ngIf="editShoe" class="editshoe">
+  <div *ngIf="isAdmin && editShoe" class="editshoe">
     <h2>Editar zapato</h2>
     <p>Nombre:</p><input [(ngModel)]="editShoe.name" placeholder="Nombre" /><br>
     <p>Precio:</p><input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" /><br>
@@ -53,7 +51,6 @@
       <button (click)="cancelEdit()">Cancelar</button>
     </div>
   </div>
-
-  <button (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
+  <button *ngIf="isAdmin" (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
   <div class="overlay"></div>
 </div>

@@ -10,9 +10,10 @@
                 <li><a routerLink="/home">Sobre Nosotros</a></li>
             </ul>
             <div class="nav-icons">
-                <a routerLink="/shopbag" class="cart-icon">
-                  <i class='bx bxs-shopping-bag' style='color:#ffffff'></i>
+                <a routerLink="/shopbag" class="cart-icon" *ngIf="isUserLoggedIn()" >
+                <i class='bx bxs-shopping-bag' style='color:#ffffff'></i>
                 </a>
+                <a *ngIf="isUserAdmin()" routerLink="/userslist" id="user-list">Lista de usuarios</a>
                 <span class="user-icon" (click)="toggleSidebar()">
                   <i class='bx bxs-user' style='color:#ffffff'></i>
                 </span>
