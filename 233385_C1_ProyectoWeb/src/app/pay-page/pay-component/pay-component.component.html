@@ -1,5 +1,4 @@
-
-<body>
+<div class="payform">
   <h1>Shopping Bag</h1>
   <div *ngIf="shoppingBag.length > 0; else emptyBag" class="shopping-container">
     <div *ngFor="let product of shoppingBag" class="product-row">
@@ -55,10 +54,22 @@
   </div>
 
   <button [disabled]="!bankDataComplete" (click)="pay()" class="btn pay-button">Pagar</button>
-
+  <div class="historial">
+  <h3>Historial de Compras</h3>
+  <div *ngIf="history.length > 0; else noHistory">
+    <ul>
+      <li *ngFor="let purchase of history">
+        {{ purchase.shoe.name }} - Cantidad: {{ purchase.quantity }} - Precio Total: ${{ purchase.shoe.price * purchase.quantity | number:'1.2-2' }}
+      </li>
+    </ul>
+  </div>
+  <ng-template #noHistory>
+    <p>No hay historial de compras.</p>
+  </ng-template>
+</div>
   <ng-template #emptyBag>
     <div class="emptycart">
       <p>Tu bolsa de compras está vacía.</p>
     </div>
   </ng-template>
-</body>
+</div>

@@ -7,6 +7,7 @@ import { ContentComponent } from '../mainpage/content/content.component';
 import { MainpageModule } from '../mainpage/mainpage.module';
 import { LoginModule } from './Login/login.module';
 import { PayPageModule } from './pay-page/pay-page.module';
+import { UserListModule } from './user-list/user-list.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PayPageModule } from './pay-page/pay-page.module';
     ResourcesModule,
     MainpageModule,
     LoginModule,
-    PayPageModule
+    PayPageModule,
+    UserListModule
   ],
   providers: [
     provideClientHydration()

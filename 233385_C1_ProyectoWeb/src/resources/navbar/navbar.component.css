@@ -52,6 +52,18 @@ body {
     gap: 60px;
     margin-right: 50px;
     font-size: 24px;
+    font-family: "Afacad", sans-serif;
+    color: white;
+}
+
+#user-list:hover{
+    color: #ffcc00; 
+}
+#user-list{
+    font-family: "Afacad", sans-serif;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
 }
 
 .overlay {
