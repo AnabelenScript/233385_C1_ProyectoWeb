@@ -1,5 +1,8 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+
 
 interface Shoe {
   id: number;
@@ -24,67 +27,8 @@ interface CartItem {
   styleUrls: ['./imagecard.component.css']
 })
 export class ImagecardComponent implements OnInit {
+  private readonly apiUrl = 'http://localhost:3000/zapatos'; 
   shoes: Shoe[] = [
-    {
-      id: 1,
-      name: 'Zapato Deportivo',
-      price: 1400.00,
-      color: 'Azul',
-      size: 7,
-      brand: 'Adidas',
-      image: 'zapatodeportivo.jpg',
-      description: 'Un zapato deportivo cómodo y ligero para tu entrenamiento diario.'
-    },
-    {
-      id: 2,
-      name: 'Zapato Casual Mujer',
-      price: 700.00,
-      color: 'Rosa',
-      size: 4,
-      brand: 'Terra',
-      image: 'zapatocasual.jpg',
-      description: 'Un zapato casual perfecto para ocasiones informales.'
-    },
-    {
-      id: 3,
-      name: 'Zapatos formales',
-      price: 1200.00,
-      color: 'Negro',
-      size: 8,
-      brand: 'Flexi',
-      image: 'zapato3.jpg',
-      description: 'Calzado que brinda elegancia y comodidad con su suela interior acolchonada.'
-    },
-    {
-      id: 4,
-      name: 'Zapatillas casuales',
-      price: 900.00,
-      color: 'Negro',
-      size: 5,
-      brand: 'Capa de Ozono',
-      image: 'zapato4.jpg',
-      description: 'Estas zapatillas negras son perfectas con interior de cuero de porcino, suela interna acolchonada y un glamour que nunca puede faltar.'
-    },
-    {
-      id: 5,
-      name: 'Botas de cuero',
-      price: 2000.00,
-      color: 'Marrón',
-      size: 7,
-      brand: 'Cowboys',
-      image: 'zapato5.jpg',
-      description: 'Botas de cuero de vaca, con bordados artesanales, resistentes e impresionantes.'
-    },
-    {
-      id: 6,
-      name: 'Sandalias/Chanclas',
-      price: 120.00,
-      color: 'Rosa',
-      size: 5,
-      brand: 'PriceShoes',
-      image: 'zapatos6.jpg',
-      description: 'Comodidad y estilo por el mismo precio. Sandalias de plástico, ligeras y frescas.'
-    }
   ];
 
   showForm: boolean = false;
@@ -103,7 +47,8 @@ export class ImagecardComponent implements OnInit {
   cart: CartItem[] = []; 
   isLogged: boolean = false; 
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object , private http: HttpClient
+) {}
   isUser: boolean = false;
 isAdmin: boolean = false;
 
@@ -118,14 +63,19 @@ ngOnInit() {
   }
 }
 
-  loadShoes(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const storedShoes = localStorage.getItem('shoes');
-      if (storedShoes) {
-        this.shoes = JSON.parse(storedShoes);
+loadShoes(): void {
+  if (isPlatformBrowser(this.platformId)) {
+    this.http.get<Shoe[]>(`${this.apiUrl}`).subscribe(
+      (data) => {
+        this.shoes = data;
+      },
+      (error) => {
+        console.error('Error al obtener los zapatos:', error);
       }
-    }
+    );
   }
+}
+
 
   loadCart(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -138,13 +88,44 @@ ngOnInit() {
 
   addNewShoe() {
     if (this.newShoe.name && this.newShoe.price) {
-      this.newShoe.id = this.shoes.length ? Math.max(...this.shoes.map(shoe => shoe.id)) + 1 : 1;
-      this.shoes.push({ ...this.newShoe });
-      this.saveShoes(); 
-      this.resetNewShoe(); 
-      this.toggleForm(); 
+      const shoeToAdd = { 
+        ...this.newShoe, 
+        id: undefined,   
+        image: '1'     
+      };
+      this.http.post<Shoe>(`${this.apiUrl}`, shoeToAdd).subscribe(
+        (data) => {
+          this.shoes.push(data);
+          this.resetNewShoe();
+          this.toggleForm();
+          Swal.fire({
+            icon: 'success',
+            title: '¡Zapato agregado!',
+            text: 'El zapato ha sido agregado correctamente.',
+            confirmButtonText: 'Aceptar'
+          });
+        },
+        (error) => {
+          console.error('Error al agregar el zapato:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al agregar el zapato',
+            text: 'Hubo un problema al agregar el zapato, por favor intente de nuevo.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      );
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Faltan campos',
+        text: 'Por favor, asegúrese de completar todos los campos obligatorios.',
+        confirmButtonText: 'Aceptar'
+      });
     }
   }
+  
+  
 
   modifyShoe(shoe: Shoe) {
     this.editShoe = { ...shoe }; 
@@ -156,14 +137,36 @@ ngOnInit() {
 
   saveEditedShoe() {
     if (this.editShoe) {
-      const index = this.shoes.findIndex(shoe => shoe.id === this.editShoe!.id);
-      if (index !== -1) {
-        this.shoes[index] = { ...this.editShoe }; 
-        this.saveShoes(); 
-        this.editShoe = null; 
-      }
+    
+      this.http.put(`${this.apiUrl}/${this.editShoe.id}`, this.editShoe).subscribe(
+        (response) => {
+         
+          const index = this.shoes.findIndex(shoe => shoe.id === this.editShoe!.id);
+          if (index !== -1) {
+            this.shoes[index] = { ...this.editShoe as Shoe };  
+          }
+          this.editShoe = null; 
+  
+          Swal.fire({
+            icon: 'success',
+            title: '¡Zapato actualizado!',
+            text: 'El zapato ha sido actualizado correctamente.',
+            confirmButtonText: 'Aceptar'
+          });
+        },
+        (error) => {
+          console.error('Error al actualizar el zapato:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al actualizar el zapato',
+            text: 'Hubo un problema al actualizar el zapato, por favor intente de nuevo.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      );
     }
   }
+  
 
   cancelEdit() {
     this.editShoe = null; 
@@ -176,10 +179,29 @@ ngOnInit() {
   }
 
   deleteShoe(id: number) {
-    this.shoes = this.shoes.filter(shoe => shoe.id !== id);
-    this.saveShoes(); 
-    this.removeFromCart(id); 
+    this.http.delete(`${this.apiUrl}/${id}`).subscribe(
+      (response) => {
+        this.shoes = this.shoes.filter(shoe => shoe.id !== id);
+        Swal.fire({
+          icon: 'success',
+          title: 'Zapato eliminado',
+          text: 'El zapato ha sido eliminado correctamente.',
+          confirmButtonText: 'Aceptar'
+        });
+        this.removeFromCart(id); 
+      },
+      (error) => {
+        console.error('Error al eliminar el zapato:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al eliminar el zapato',
+          text: 'Hubo un problema al eliminar el zapato, por favor intente de nuevo.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    );
   }
+  
 
   toggleForm() {
     this.showForm = !this.showForm;
