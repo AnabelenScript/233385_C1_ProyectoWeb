@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ShoeService {
-  private readonly apiUrl = 'http://localhost:3000/zapatos';
+  private readonly apiUrl = 'https://54.156.54.129/zapatos';
 
   constructor(private http: HttpClient) {}
 
