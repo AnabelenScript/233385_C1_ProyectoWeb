@@ -18,7 +18,6 @@ export class ListComponent implements OnInit {
   }
 
   loadUsers(): void {
-    this.users = this.storageService.getUsers(); 
     console.log('Usuarios almacenados:', this.users); 
   }
 

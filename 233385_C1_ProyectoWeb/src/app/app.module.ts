@@ -8,6 +8,7 @@ import { MainpageModule } from '../mainpage/mainpage.module';
 import { LoginModule } from './Login/login.module';
 import { PayPageModule } from './pay-page/pay-page.module';
 import { UserListModule } from './user-list/user-list.module';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,12 @@ import { UserListModule } from './user-list/user-list.module';
     MainpageModule,
     LoginModule,
     PayPageModule,
-    UserListModule
+    UserListModule,
+    HttpClientModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })
