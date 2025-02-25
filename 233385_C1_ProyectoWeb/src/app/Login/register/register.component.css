@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color:white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,11 +9,11 @@ body {
 }
 
 .container {
-    background-color: white;
+    background-color: rgba(0, 45, 141, 0.166);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
+    width: 410px;
 }
 
 .login-form, .registration-form {
@@ -37,14 +37,58 @@ label {
     color: #333;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"] {
+input[type="text"]{
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    margin-left: 30px;
+    width: 216px;
 }
+
+#name{
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-left: 90px;
+        width: 244px;
+}
+#lastname{
+    padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-left: 90px;
+        width: 244px;
+}
+#username{
+    padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-left: 144px;
+        width: 244px;
+}
+
+input[type="password"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: 70px;
+    width: 245px;
+}
+input[type="email"]{
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-left: 28.3px;
+    width: 243px;
+}
+
+
 
 input[type="text"]:focus,
 input[type="password"]:focus,

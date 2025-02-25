@@ -1,0 +1,258 @@
+h1{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+.shopping-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .product-row:last-child {
+    border-bottom: none;
+  }
+  
+  .product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .product-info {
+    flex-grow: 1;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+  }
+  
+  .product-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    font-size: 18px;
+  }
+  
+  .product-details {
+    font-size: 16px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  /* Cantidad y precio */
+  .product-quantity, .product-price {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-right: 60px;
+  }
+  
+  .product-price {
+    color: #bd1000;
+  }
+  
+  /* Botón de eliminar */
+  .remove-button {
+    background-color: #a70f01;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .remove-button:hover {
+    background-color: #6c0900;
+  }
+  
+  /* Contenedor del precio total */
+  .total-container {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  .total-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .total-amount {
+    font-size: 24px;
+    color: #ff6f61;
+    font-weight: bold;
+  }
+
+.bank-form-container {
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bank-form-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+  }
+  
+  .bank-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+   width: 370px;
+   background-color: #f9f9f9;
+   border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 40px;
+    margin-left: 18.8%;
+  }
+  
+  .bank-form input,
+  .bank-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+  }
+  
+  .bank-form input:focus,
+  .bank-form select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .bank-form .submit-btn,
+  .bank-form .edit-btn,
+  .bank-form .delete-btn {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .bank-form .submit-btn:hover,
+  .bank-form .edit-btn:hover,
+  .bank-form .delete-btn:hover {
+    background-color: #000000;
+  }
+  
+  .bank-form .disabled {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+  }
+  
+  .bank-form .edit-btn {
+    background-color: #28a745;
+  }
+  
+  .bank-form .edit-btn:hover {
+    background-color: #218838;
+  }
+  
+  .bank-form .delete-btn {
+    background-color: #dc3545;
+  }
+  
+  .bank-form .delete-btn:hover {
+    background-color: #c82333;
+  }
+  
+  .total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .total-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .total-amount {
+    font-size: 1.5rem;
+    color: #000000;
+    font-weight: bold;
+  }
+  
+  .pay-button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+    margin-left: 72.3%;
+  }
+  
+  .pay-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    position: relative;
+    margin-left: 72.3%;
+  }
+  
+  .pay-button:hover:not(:disabled) {
+    background-color: #218842;
+    color: white;
+  }
+
+  .bank-data-summary{
+    background-color: #f9f9f9;
+    width: 370px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 40px;
+    margin-left: 18.8%;
+    font-size: 18px;
+  }
+  .btn{
+    background-color: #bebebe;
+    width: 140px;
+    margin-right: 40px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .emptycart{
+    background-color: #f9f9f9;
+    width: 1000px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 18.8%;
+    padding: 20px;
+    font-size: 20px;
+  }

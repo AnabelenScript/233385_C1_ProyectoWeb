@@ -32,7 +32,7 @@ body {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 60px;
+    gap: 70px;
 }
 
 .nav-links li {
@@ -51,7 +51,93 @@ body {
 }
 .nav-icons{
     display: flex;
-    gap: 40px;
+    gap: 60px;
     margin-right: 50px;
     font-size: 24px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 5;
+    transition: opacity 0.3s ease;
+  }
+  
+  .overlay.active {
+    display: block;
+  }
+.sidebar {
+    position: fixed;
+    right: -360px; 
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #004c99;
+    z-index: 100;
+    display: flex;
+    transition: right 0.3s ease; 
+    padding: 30px;
+}
+
+.sidebar.open {
+    right: 0 
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.user-large-icon {
+    font-size: 100px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.logout {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 30px;
+    position: absolute;
+    bottom: 90px;
+}
+.logout:hover{
+    color: #b9b9b9;
+}
+
+.user-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#biguser{
+    margin-left: 100px;
+    margin-top: 50px;
+}
+
+.close-button{
+    background-color: transparent;
+    border: 0;
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    font-weight: bold;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.close-button:hover{
+    color: #b9b9b9;
+}
+
+.username{
+    font-size: 30px;
+    color: #ffffff;
 }

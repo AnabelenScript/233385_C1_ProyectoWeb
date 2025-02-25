@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms'; 
 
 
 
@@ -13,7 +14,8 @@ import { RouterLink } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterLink
+    RouterLink,
+    FormsModule 
   ],
   exports:[
     LoginComponent,

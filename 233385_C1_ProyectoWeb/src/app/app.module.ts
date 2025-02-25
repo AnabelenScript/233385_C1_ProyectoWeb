@@ -5,20 +5,21 @@ import { AppComponent } from './app.component';
 import { ResourcesModule } from '../resources/resources.module';
 import { ContentComponent } from '../mainpage/content/content.component';
 import { MainpageModule } from '../mainpage/mainpage.module';
-import { PayComponentComponent } from './pay-page/pay-component/pay-component.component';
 import { LoginModule } from './Login/login.module';
+import { PayPageModule } from './pay-page/pay-page.module';
+
 @NgModule({
   declarations: [
     AppComponent,
     ContentComponent,
-    PayComponentComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ResourcesModule,
     MainpageModule,
-    LoginModule
+    LoginModule,
+    PayPageModule
   ],
   providers: [
     provideClientHydration()
