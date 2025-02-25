@@ -4,22 +4,22 @@
   <h1>Shopping Bag</h1>
   <div *ngIf="shoppingBag.length > 0; else emptyBag" class="shopping-container">
     <div *ngFor="let product of shoppingBag" class="product-row">
-      <img [src]="product.image" alt="{{ product.name }}" class="product-image">
+      <img [src]="product.shoe.image" alt="{{ product.name }}" class="product-image">
       <div class="product-info">
-        <div class="product-name">{{ product.name }}</div>
+        <div class="product-name">{{ product.shoe.name }}</div>
         <div class="product-details">
-          <p>Color: {{ product.color }}</p>
-          <p>Talla: {{ product.size }}</p>
-          <p>Marca: {{ product.brand }}</p>
+          <p>Color: {{ product.shoe.color }}</p>
+          <p>Talla: {{ product.shoe.size }}</p>
+          <p>Marca: {{ product.shoe.brand }}</p>
         </div>
       </div>
       <div class="product-quantity">Cantidad: {{ product.quantity }}</div>
-      <div class="product-price">${{ product.price * product.quantity }}</div>
+      <div class="product-price">${{ product.shoe.price * product.quantity | number:'1.2-2' }}</div>
       <button class="remove-button" (click)="removeProduct(product)">Eliminar</button>
     </div>
     <div class="total-container">
       <div class="total-text">Total a pagar:</div>
-      <div class="total-amount">${{ totalPrice }}</div>
+      <div class="total-amount">${{ totalPrice | number:'1.2-2' }}</div>
     </div>
   </div>
 
@@ -59,7 +59,8 @@
 
   <ng-template #emptyBag>
     <div class="emptycart">
-    <p>Tu bolsa de compras está vacía.</p></div>
+      <p>Tu bolsa de compras está vacía.</p>
+    </div>
   </ng-template>
 </body>
 
