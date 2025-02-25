@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
-import { StorageService } from './storage.service'; 
+import { StorageService } from './storage.service';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +27,7 @@ export class RegisterComponent {
       return;
     }
     const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const newUserId = users.length > 0 ? users[users.length - 1].iduser + 1 : 1; 
+    const newUserId = users.length > 0 ? users[users.length - 1].iduser + 1 : 1;
 
     const userData = {
       iduser: newUserId,
@@ -44,7 +44,7 @@ export class RegisterComponent {
       icon: 'success',
       confirmButtonText: 'Aceptar'
     });
-    this.resetForm();
+    this.resetForm(); 
   }
 
   resetForm() {
