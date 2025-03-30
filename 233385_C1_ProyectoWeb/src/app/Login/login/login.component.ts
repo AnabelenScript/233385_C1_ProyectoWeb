@@ -20,9 +20,12 @@ export class LoginComponent {
   onSubmit() {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     let user = users.find((u: any) => u.username === this.username && u.password === this.password);
+    let isAdmin = false;
+
     if (!user) {
       user = this.adminUsers.find(admin => admin.username === this.username && admin.password === this.password);
       if (user) {
+        isAdmin = true;
         Swal.fire({
           icon: 'info',
           title: '¡Atención!',
@@ -31,12 +34,17 @@ export class LoginComponent {
         });
       }
     }
+
     if (user) {
       user.iniciosesion = true;
-      if (users.some((u: any) => u.username === user.username)) {
-        localStorage.setItem('users', JSON.stringify(users));
+      if (isAdmin) {
+        localStorage.setItem('isLoggedUser', 'admin');
+        localStorage.setItem('admin', JSON.stringify(user));
+      } else {
+        localStorage.setItem('isLoggedUser', 'user');
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('users', JSON.stringify(users)); 
       }
-      localStorage.setItem('loggedInUser', JSON.stringify(user)); 
       this.router.navigate(['/home']);
     } else {
       Swal.fire({

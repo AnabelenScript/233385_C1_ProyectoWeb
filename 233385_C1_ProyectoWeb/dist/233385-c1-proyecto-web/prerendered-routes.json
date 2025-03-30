@@ -1,0 +1,9 @@
+{
+  "routes": [
+    "/home",
+    "/login",
+    "/register",
+    "/shopbag",
+    "/userslist"
+  ]
+}

@@ -252,3 +252,68 @@ h1{
     padding: 20px;
     font-size: 20px;
   }
+
+  .historial{
+    background-color: #f9f9f9;
+    width: 80%;
+    margin-left: 9%;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+h3 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 20px 0 10px;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0; 
+}
+
+li {
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+li:hover {
+  background-color: #e0e0e0;
+}
+
+li p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+
+li .remove-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+li .remove-button:hover {
+  background-color: #c82333; 
+}
+
+.no-history {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+  margin-top: 20px;
+
+}

@@ -6,8 +6,9 @@
       <p>${{ shoe.price }}</p>
     </div>
     <div class="card-hover">
-      <i class='bx bx-heart' id="heart" (click)="addToCart(shoe)"></i>
-      <span class="quantity">{{ getQuantity(shoe.id) }}</span>
+      <i class="bx bx-heart" id="heart" (click)="addToCart(shoe)" *ngIf="isUser"></i>
+      <span class="quantity" *ngIf="isUser">{{ getQuantity(shoe.id) }}</span>
+      
       <div class="shoe-specs">
         <img [src]="shoe.image" [alt]="shoe.name + ' Ampliado'" class="hover-image">
         <p>{{ shoe.name }}</p>
@@ -17,15 +18,13 @@
         <p><strong>Marca:</strong> {{ shoe.brand }}</p>
         <p><strong>Descripción:</strong> {{ shoe.description }}</p>
       </div>
-
-      <div class="boton">
-        <button (click)="startEditingShoe(shoe)">Modificar</button>
+      <div class="boton" *ngIf="isAdmin">
+        <button (click)="editShoe = shoe">Modificar</button>
         <button (click)="deleteShoe(shoe.id)">Eliminar</button>
       </div>
     </div>
   </div>
-  
-  <div *ngIf="showForm" class="addshoe">
+  <div *ngIf="isAdmin && showForm" class="addshoe">
     <h2>Agregar nuevo zapato</h2>
     <p>Nombre</p><input [(ngModel)]="newShoe.name" placeholder="Nombre" />
     <p>Precio</p><input [(ngModel)]="newShoe.price" placeholder="Precio" type="number" />
@@ -39,21 +38,20 @@
       <button (click)="toggleForm()">Cancelar</button>
     </div>
   </div>
-
-  <div *ngIf="editShoe" class="editshoe">
+  <div *ngIf="isAdmin && editShoe" class="editshoe">
     <h2>Editar zapato</h2>
-    <p>Nombre:</p><input [(ngModel)]="editShoe.name" placeholder="Nombre" /><br>
-    <p>Precio:</p><input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" /><br>
-    <p>Color</p><input [(ngModel)]="editShoe.color" placeholder="Color" /><br>
-    <p>Tamaño</p><input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" /><br>
-    <p>Marca</p><input [(ngModel)]="editShoe.brand" placeholder="Marca" /><br>
-    <p>Descripción</p><input [(ngModel)]="editShoe.description" placeholder="Descripción" /><br>
+    <p>Nombre:</p><input [(ngModel)]="editShoe.name" placeholder="Nombre" />
+    <p>Precio:</p><input [(ngModel)]="editShoe.price" placeholder="Precio" type="number" />
+    <p>Color:</p><input [(ngModel)]="editShoe.color" placeholder="Color" />
+    <p>Tamaño:</p><input [(ngModel)]="editShoe.size" placeholder="Talla" type="number" />
+    <p>Marca:</p><input [(ngModel)]="editShoe.brand" placeholder="Marca" />
+    <p>Descripción:</p><input [(ngModel)]="editShoe.description" placeholder="Descripción" />
     <div class="botonedit">
       <button (click)="saveEditedShoe()">Guardar cambios</button>
       <button (click)="cancelEdit()">Cancelar</button>
     </div>
   </div>
-
-  <button (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
+  <button *ngIf="isAdmin" (click)="toggleForm()" class="addbutton">Agregar Zapato</button>
+  
   <div class="overlay"></div>
 </div>

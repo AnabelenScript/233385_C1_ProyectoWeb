@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, PLATFORM_ID, NgModule } from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
 
@@ -14,12 +14,14 @@ export class PayComponentComponent implements OnInit {
   bankDataComplete: boolean = false;
   bankData = { cvv: '', accountNumber: '', bank: '' };
   username: string = '';
+  history: any[] = [];  
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
     this.loadUserData();
     this.loadShoppingBag();
+    this.loadHistory();  
     this.calculateTotalPrice();
     this.loadBankData();
   }
@@ -36,7 +38,7 @@ export class PayComponentComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       const currentUser = users.find((user: any) => user.iniciosesion === true); 
-  
+
       if (currentUser && currentUser.shoppingBag) {
         this.shoppingBag = currentUser.shoppingBag; 
       } else {
@@ -44,8 +46,20 @@ export class PayComponentComponent implements OnInit {
       }
     }
   }
-  
 
+  loadHistory() {
+    if (isPlatformBrowser(this.platformId)) {
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const currentUser = users.find((user: any) => user.iniciosesion === true);
+
+      if (currentUser && currentUser.history) {
+        this.history = currentUser.history;
+      } else {
+        this.history = [];
+      }
+    }
+  }
+  
   calculateTotalPrice() {
     this.totalPrice = this.shoppingBag.reduce((total, product) => {
       return total + (product.shoe.price * product.quantity);
@@ -114,8 +128,9 @@ export class PayComponentComponent implements OnInit {
       const currentUser = users.find((user: any) => user.username === this.username);
 
       if (currentUser) {
-        currentUser.bankData = null;
+        delete currentUser.bankData;
         localStorage.setItem('users', JSON.stringify(users));
+        Swal.fire('Datos bancarios eliminados', '', 'success');
         this.bankData = { cvv: '', accountNumber: '', bank: '' };
         this.formStatic = true;
         this.bankDataComplete = false;
@@ -124,23 +139,25 @@ export class PayComponentComponent implements OnInit {
   }
 
   pay() {
-    if (this.bankDataComplete) {
-      Swal.fire('Compra efectuada con éxito', '', 'success');
+    if (this.bankDataComplete && this.shoppingBag.length > 0) {
       if (isPlatformBrowser(this.platformId)) {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const currentUser = users.find((user: any) => user.username === this.username);
 
         if (currentUser) {
-          if (!currentUser.history) currentUser.history = [];
-          currentUser.history.push(...this.shoppingBag);
-          currentUser.shoppingBag = [];
+          currentUser.history = currentUser.history || []; 
+          this.shoppingBag.forEach(product => {
+            currentUser.history.push(product);
+          });
           localStorage.setItem('users', JSON.stringify(users));
+          Swal.fire('Compra realizada con éxito', '', 'success');
+          this.shoppingBag = []; 
+          this.calculateTotalPrice();
+          this.loadHistory(); 
         }
-        this.loadShoppingBag();
-        this.totalPrice = 0;
       }
     } else {
-      Swal.fire('Por favor, complete sus datos bancarios antes de pagar', '', 'warning');
+      Swal.fire('Error al realizar el pago', 'Verifique que todos los campos estén completos y que haya productos en la bolsa', 'error');
     }
   }
 }
